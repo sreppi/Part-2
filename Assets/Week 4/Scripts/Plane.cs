@@ -11,6 +11,8 @@ public class Plane : MonoBehaviour
     Vector2 currentPosition;
     Rigidbody2D rb;
     public float speed = 1;
+    public AnimationCurve landing;
+    float landingTimer;
 
     private void Start()
     {
@@ -20,7 +22,7 @@ public class Plane : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() //Physics normally happen here
     {
         //Do the Rotation and the Moving in here
         //Get the value of our current position
@@ -37,6 +39,17 @@ public class Plane : MonoBehaviour
     }
     private void Update()
     {
+        if(Input.GetKey(KeyCode.Space)) //we want this to keep happening while it's down, so not GetKeyDown
+        {
+            landingTimer += 0.5f * Time.deltaTime; //every single frame we're increasing this number
+            float interpolation = landing.Evaluate(landingTimer); //lerp?
+            if(transform.localScale.z < 0.1f)
+            {
+                Destroy(gameObject);
+            }
+            transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, interpolation);
+        }
+
         //The line rendere where it use to be, we want to update the point
         lineRenderer.SetPosition(0, transform.position); //back of the end of the line, move it forward; removes so that there isn't a line behind itself
         if (points.Count > 0)
@@ -50,6 +63,7 @@ public class Plane : MonoBehaviour
                 {
                     lineRenderer.SetPosition(i, lineRenderer.GetPosition(i+1));
                 }
+                //if (lineRenderer.positionCount != 0) //didn't seem to fix it
                 //get rid of the last point
                 lineRenderer.positionCount--;
             }
