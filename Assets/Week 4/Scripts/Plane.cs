@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class Plane : MonoBehaviour
@@ -13,6 +14,12 @@ public class Plane : MonoBehaviour
     public float speed = 1;
     public AnimationCurve landing;
     float landingTimer;
+    public int[] planesprite = new int[4];
+    public Sprite planesprite0;
+    public Sprite planesprite1;
+    public Sprite planesprite2;
+    public Sprite planesprite3;
+    public SpriteRenderer currentPlaneSkin;
 
     private void Start()
     {
@@ -20,6 +27,14 @@ public class Plane : MonoBehaviour
         lineRenderer.positionCount = 1; //How many positions
         lineRenderer.SetPosition(0, transform.position); //As soon as the game starts, the point is where the plane is right now, as soon as we draw, the points will connect to the plane
         rb = GetComponent<Rigidbody2D>();
+
+        rb.transform.position = new Vector3(Random.Range(-5,5), Random.Range(-5, 5), 0);
+        rb.transform.Rotate(0.0f, 0.0f, Random.Range(0, 359), Space.Self);
+        speed = Random.Range(1, 3);
+
+        //Randomize the type of plane that will spawn
+        currentPlaneSkin = GetComponent<SpriteRenderer>();
+        //currentPlaneSkin.sprite = planesprite(Random.Range(0, 4));
     }
 
     private void FixedUpdate() //Physics normally happen here
@@ -34,6 +49,7 @@ public class Plane : MonoBehaviour
             float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg; //We got this vector pretned it's a triangle
             rb.rotation = -angle; //Negative rotates clockwise, also there's other ways to do this
         }
+
         //Let's move it forward
         rb.MovePosition(rb.position + (Vector2)transform.up * speed * Time.deltaTime); //remember transform.forward is into the z position, also force the vector 3 to 2
     }
