@@ -14,12 +14,8 @@ public class Plane : MonoBehaviour
     public float speed = 1;
     public AnimationCurve landing;
     float landingTimer;
-    public int[] planesprite = new int[4];
-    public Sprite planesprite0;
-    public Sprite planesprite1;
-    public Sprite planesprite2;
-    public Sprite planesprite3;
-    public SpriteRenderer currentPlaneSkin;
+    public Sprite[] spriteArray;
+    public SpriteRenderer spriteRenderer;
 
     private void Start()
     {
@@ -33,8 +29,8 @@ public class Plane : MonoBehaviour
         speed = Random.Range(1, 3);
 
         //Randomize the type of plane that will spawn
-        currentPlaneSkin = GetComponent<SpriteRenderer>();
-        //currentPlaneSkin.sprite = planesprite(Random.Range(0, 4));
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = spriteArray[Random.Range(0, 4)];
     }
 
     private void FixedUpdate() //Physics normally happen here
