@@ -24,4 +24,6 @@ public class PlaneSpawner : MonoBehaviour
             planeSpawnTimer = 0;
         }
     }
+
+
 }

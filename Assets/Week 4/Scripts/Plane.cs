@@ -16,6 +16,7 @@ public class Plane : MonoBehaviour
     float landingTimer;
     public Sprite[] spriteArray;
     public SpriteRenderer spriteRenderer;
+    public float crashDistance = 1.0f;
 
     private void Start()
     {
@@ -80,6 +81,7 @@ public class Plane : MonoBehaviour
                 lineRenderer.positionCount--;
             }
         }
+
     }
 
     private void OnMouseDown()
@@ -101,5 +103,29 @@ public class Plane : MonoBehaviour
             lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition); //Stuff it at the end of the list, that list of points, add it to the lineRenderer
             lastPosition = newPosition; //Is the last position far away from this position?
         }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        spriteRenderer.color = Color.red;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        //Test the distance of the planes
+        float dist = Vector3.Distance(currentPosition, collision.transform.position);
+        if (dist <= crashDistance)
+        {
+            Destroy(gameObject);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        spriteRenderer.color = Color.white;
+    }
+    public void OnBecameInvisible()
+    {
+        Destroy(gameObject); //Note, scene camera still counts as being seen.
     }
 }
