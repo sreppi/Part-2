@@ -19,7 +19,7 @@ public class Plane : MonoBehaviour
     public float crashDistance = 1.0f;
     public bool isLanding;
     public int playerScore;
-    public static GameObject landingStrip;
+    public Rigidbody2D landingStrip;
 
     private void Start()
     {
@@ -56,11 +56,6 @@ public class Plane : MonoBehaviour
     }
     private void Update()
     {
-
-        //if (Collider2D.OverlapPoint() == true)
-        //{
-        //    isLanding = true;
-        //}
 
         if (isLanding == true)
         {
@@ -129,6 +124,10 @@ public class Plane : MonoBehaviour
         if (dist <= crashDistance)
         {
             Destroy(gameObject);
+        }
+        if (collision.OverlapPoint(landingStrip.transform.position) == true)
+        {
+            isLanding = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
