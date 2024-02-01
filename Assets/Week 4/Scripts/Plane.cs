@@ -17,6 +17,9 @@ public class Plane : MonoBehaviour
     public Sprite[] spriteArray;
     public SpriteRenderer spriteRenderer;
     public float crashDistance = 1.0f;
+    public bool isLanding;
+    public int playerScore;
+    public static GameObject landingStrip;
 
     private void Start()
     {
@@ -32,6 +35,7 @@ public class Plane : MonoBehaviour
         //Randomize the type of plane that will spawn
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = spriteArray[Random.Range(0, 4)];
+        isLanding = false;
     }
 
     private void FixedUpdate() //Physics normally happen here
@@ -52,13 +56,20 @@ public class Plane : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKey(KeyCode.Space)) //we want this to keep happening while it's down, so not GetKeyDown
+
+        //if (Collider2D.OverlapPoint() == true)
+        //{
+        //    isLanding = true;
+        //}
+
+        if (isLanding == true)
         {
             landingTimer += 0.5f * Time.deltaTime; //every single frame we're increasing this number
             float interpolation = landing.Evaluate(landingTimer); //lerp?
             if(transform.localScale.z < 0.1f)
             {
                 Destroy(gameObject);
+                playerScore += 1;
             }
             transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, interpolation);
         }
