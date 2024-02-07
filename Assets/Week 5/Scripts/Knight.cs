@@ -41,6 +41,10 @@ public class Knight : MonoBehaviour
         }
         animator.SetFloat("Movement", movement.magnitude); // Make sure things are spelt right cause you won't get a warning.
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            animator.SetTrigger("Attack");
+        }
     }
 
     private void OnMouseDown()
