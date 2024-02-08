@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Knight : MonoBehaviour
 {
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     Animator animator;
     Vector2 destination;
-    Vector2 movement;
+    public Vector2 movement;
     public float speed = 3;
     bool clickingOnSelf = false;
     public float health;
     public float maxHealth = 5;
     bool isDead = false;
+    public Vector2 lastPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class Knight : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         health = maxHealth;
+        lastPosition = rb.position;
     }
 
     private void FixedUpdate() // Physics things happen in here
