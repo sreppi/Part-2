@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Knight : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class Knight : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-        if (Input.GetMouseButtonDown(0) && !clickingOnSelf) // ! = not
+        if (Input.GetMouseButtonDown(0) && !clickingOnSelf && !EventSystem.current.IsPointerOverGameObject()) // Requires a UnityEngine.EventSystems at the top
         {
             destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }

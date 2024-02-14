@@ -31,7 +31,7 @@ public class WeaponProjectile : MonoBehaviour
         axeSprite.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
         rb.transform.position = Vector2.MoveTowards(transform.position, knight.rb.position, speed * Time.deltaTime);
         despawnTimer += Time.deltaTime;
-        if (despawnTimer > timeToDespawn)
+        if (despawnTimer > timeToDespawn) // Destroy (gameObject, t) t is seconds to destroy
         {
             Destroy(gameObject);
             despawnTimer = 0;
