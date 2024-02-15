@@ -10,7 +10,6 @@ public class WeaponProjectile : MonoBehaviour
     public float speed = 2.5f;
     public Knight knight; // Used to access the Knight Script
     public GameObject player;
-    public float despawnTimer;
     public float timeToDespawn = 5;
 
     // Start is called before the first frame update
@@ -29,18 +28,12 @@ public class WeaponProjectile : MonoBehaviour
     void Update()
     {
         axeSprite.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
-        rb.transform.position = Vector2.MoveTowards(transform.position, knight.rb.position, speed * Time.deltaTime);
-        despawnTimer += Time.deltaTime;
-        if (despawnTimer > timeToDespawn) // Destroy (gameObject, t) t is seconds to destroy
-        {
-            Destroy(gameObject);
-            despawnTimer = 0;
-        }
+        Destroy(gameObject, timeToDespawn);
     }
 
     private void FixedUpdate()
     {
-
+        rb.position = Vector2.MoveTowards(transform.position, knight.rb.position, speed * Time.deltaTime);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
