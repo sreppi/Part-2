@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,15 +18,15 @@ public class Knight : MonoBehaviour
     public Vector2 lastPosition;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        health = maxHealth;
+        health = PlayerPrefs.GetFloat("PlayerHealth"); // Something interesting is happening, when the player dies, restarting the game will give them 1 health instead of 0.
         lastPosition = rb.position;
     }
 
-    private void FixedUpdate() // Physics things happen in here
+    public void FixedUpdate() // Physics things happen in here
     {
         if (isDead) return; // If this is true, don't do anything below
         movement = destination - (Vector2)transform.position; // Direction you want to move in
@@ -35,7 +36,7 @@ public class Knight : MonoBehaviour
         }
         rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime); // Normalize: it's the correct angle, but only a direction of 1 unit
     }
-    void Update()
+    public void Update()
     {
         if (isDead) return;
         if (Input.GetMouseButtonDown(0) && !clickingOnSelf && !EventSystem.current.IsPointerOverGameObject()) // Requires a UnityEngine.EventSystems at the top
@@ -48,6 +49,18 @@ public class Knight : MonoBehaviour
         {
             animator.SetTrigger("Attack");
         }
+
+        PlayerPrefs.SetFloat("PlayerHealth", health);
+
+        if (health < maxHealth)
+        {
+            SendMessage("SetHealth", health);
+        }
+    }
+
+    public void SetHealth(float health) // I'm not sure if it's okay to leave this blank
+    {
+
     }
 
     private void OnMouseDown()
