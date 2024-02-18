@@ -36,7 +36,7 @@ public class PlayerShooting : MonoBehaviour
 
     public void PlayerShoot()
     {
-        Vector2 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector2 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Instantiate(arrowPrefab, worldPosition, Quaternion.identity);
     }
 }

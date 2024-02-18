@@ -7,26 +7,31 @@ using UnityEngine;
 public class ArrowScript : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Vector3 scaleChange = new Vector3(-100f, -100f, 0f);
+    public Vector3 scaleChange = new Vector3(-1f, -1f, 0f);
     public float lerpTimer;
     public float interpolation;
     public AnimationCurve animationCurve;
     public PlayerShooting playerShooting;
+    public EnemyScript enemyScript;
     public GameObject retical;
     public Vector2 startPosition;
     public Vector2 endPosition;
+    public float arrowSpeed;
+    public float timerOne;
+    public float hitSweetSpot;
 
     // Start is called before the first frame update
     void Start()
     {
+        arrowSpeed = 0.5f;
         rb = GetComponent<Rigidbody2D>();
         retical = GameObject.FindWithTag("Player");
         if (retical != null)
         {
-            playerShooting = retical.GetComponent<PlayerShooting>(); // This is finding the Knight script using FindWithTag, it's to attach the component to every new instantiated axe
+            playerShooting = retical.GetComponent<PlayerShooting>(); // Find the game object with the script
         }
         startPosition = playerShooting.worldPosition;
-        endPosition = playerShooting.worldPosition + new Vector3(0, 1, 0);
+        endPosition = playerShooting.worldPosition + new Vector3(0, 3, 0); // Height of the arrow
     }
     private void FixedUpdate()
     {
@@ -36,16 +41,24 @@ public class ArrowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Move the arrow up and back down
         interpolation = animationCurve.Evaluate(lerpTimer);
         transform.position = Vector3.Lerp(startPosition, endPosition, interpolation);
-        lerpTimer += Time.deltaTime;
+        lerpTimer += arrowSpeed * Time.deltaTime;
 
-        transform.localScale += scaleChange;
+        // Reduce the scale of the arrow
+        transform.localScale += scaleChange * (arrowSpeed * 150f * Time.deltaTime);
         if (transform.localScale.x <= 0 && transform.localScale.y <= 0)
         {
             Destroy(gameObject);
         }
+    }
 
-
+    private void OnTriggerStay2D(Collider2D collision) // OnTriggerStay saved my life!
+    {
+        if (collision.gameObject.CompareTag("Enemy") && transform.localScale.x <= 0.1 && transform.localScale.y <= 0.1)
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
