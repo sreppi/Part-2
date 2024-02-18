@@ -6,6 +6,14 @@ TagManager:
   tags:
   - Arrow
   - Enemy
+  - Point A
+  - Point B
+  - Point C
+  - Point D
+  - Point E
+  - Point F
+  - Point G
+  - Point H
   layers:
   - Default
   - TransparentFX
