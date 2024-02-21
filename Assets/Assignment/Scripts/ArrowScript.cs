@@ -59,6 +59,7 @@ public class ArrowScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && transform.localScale.x <= 0.1 && transform.localScale.y <= 0.1)
         {
             Destroy(collision.gameObject);
+            SendMessage("ReceiveScore", 100, SendMessageOptions.DontRequireReceiver);
         }
     }
 }
