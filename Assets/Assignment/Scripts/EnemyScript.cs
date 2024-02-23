@@ -9,6 +9,7 @@ using System.Reflection;
 public class EnemyScript : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public Animator animator;
     public Transform pointA;
     public Transform pointB;
     public Transform pointC;
@@ -28,12 +29,17 @@ public class EnemyScript : MonoBehaviour
     public bool eToF;
     public bool fToG;
     public bool gToH;
+    public bool isDead;
     public float step;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        isDead = false;
+        animator.SetTrigger("Movement2");
 
         pointA = GameObject.FindWithTag("Point A").transform;
         if (pointA != null)
@@ -83,39 +89,51 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(rb.transform.position, pointA.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointA.transform.position) <= distanceThreshold && isDead == false)
         {
             aToB = true;
+            transform.localScale = new Vector3(-0.75f, 0.75f, 1); // This is probably a jank way of turning
         }
-        if (Vector2.Distance(rb.transform.position, pointB.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointB.transform.position) <= distanceThreshold && isDead == false)
         {
             bToC = true;
             aToB = false;
+            transform.localScale = new Vector3(0.75f, 0.75f, 1);
         }
-        if (Vector2.Distance(rb.transform.position, pointC.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointC.transform.position) <= distanceThreshold && isDead == false)
         {
             cToD = true;
             bToC = false;
+            transform.localScale = new Vector3(-0.75f, 0.75f, 1);
         }
-        if (Vector2.Distance(rb.transform.position, pointD.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointD.transform.position) <= distanceThreshold && isDead == false)
         {
             dToE = true;
             cToD = false;
+            transform.localScale = new Vector3(0.75f, 0.75f, 1);
         }
-        if (Vector2.Distance(rb.transform.position, pointE.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointE.transform.position) <= distanceThreshold && isDead == false)
         {
             eToF = true;
             dToE = false;
+            transform.localScale = new Vector3(-0.75f, 0.75f, 1);
         }
-        if (Vector2.Distance(rb.transform.position, pointF.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointF.transform.position) <= distanceThreshold && isDead == false)
         {
             fToG = true;
             eToF = false;
+            transform.localScale = new Vector3(0.75f, 0.75f, 1);
         }
-        if (Vector2.Distance(rb.transform.position, pointG.transform.position) <= distanceThreshold)
+        if (Vector2.Distance(rb.transform.position, pointG.transform.position) <= distanceThreshold && isDead == false)
         {
             gToH = true;
             fToG = false;
+            transform.localScale = new Vector3(-0.75f, 0.75f, 1);
+        }
+        if (Vector2.Distance(rb.transform.position, pointH.transform.position) <= distanceThreshold && isDead == false)
+        {
+            SendMessage("LoseHealth", 1, SendMessageOptions.DontRequireReceiver); // No time to implement
+            Destroy(gameObject);
         }
     }
     private void FixedUpdate()
@@ -149,5 +167,18 @@ public class EnemyScript : MonoBehaviour
         {
             rb.transform.position = Vector2.MoveTowards(rb.position, pointH.position, step);
         }
+    }
+
+    public void DeathAnimation()
+    {
+        isDead = true;
+        aToB = false;
+        bToC = false;
+        cToD = false;
+        dToE = false;
+        eToF = false;
+        fToG = false;
+        gToH = false;
+        animator.SetTrigger("Death"); // Should change something here or the shooting script so players can't keep attacking the dead knight
     }
 }

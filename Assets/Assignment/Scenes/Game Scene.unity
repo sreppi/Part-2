@@ -503,6 +503,8 @@ MonoBehaviour:
   newPosition: {x: 0, y: 0}
   startPosition: {fileID: 0}
   endPosition: {fileID: 0}
+  coolDownTimer: 0
+  canShoot: 0
 --- !u!1 &215725033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,7 +1740,7 @@ GameObject:
   - component: {fileID: 1092277375}
   m_Layer: 5
   m_Name: Score Count
-  m_TagString: Untagged
+  m_TagString: ScoreCounter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1871,7 +1873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4e01bfcf84be047afff431168485c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: {fileID: 0}
+  currentScore: 0
 --- !u!1 &1151743914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2539,7 +2541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d306ab68249a1214d96ea9bc389efa62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1074855154033477268, guid: 2e04801c577808749ba6b2449dbcce9b, type: 3}
+  enemyPrefab: {fileID: 9209111965939946019, guid: 03b7de70217344e48a6ce75170f72c3c, type: 3}
   spawnTimer: 0
   spawnDelay: 5
   spawn: {fileID: 127722174}
