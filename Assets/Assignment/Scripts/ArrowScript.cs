@@ -13,12 +13,12 @@ public class ArrowScript : MonoBehaviour
     public AnimationCurve animationCurve;
     public PlayerShooting playerShooting;
     public EnemyScript enemyScript;
-    public ScoreCounter scoreCounter;
-    public GameObject scoreText;
     public GameObject retical;
     public Vector2 startPosition;
     public Vector2 endPosition;
     public float arrowSpeed;
+    public float timerOne;
+    public float hitSweetSpot;
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +29,6 @@ public class ArrowScript : MonoBehaviour
         if (retical != null)
         {
             playerShooting = retical.GetComponent<PlayerShooting>(); // Find the game object with the script
-        }
-        scoreText = GameObject.FindWithTag("ScoreCounter");
-        if (scoreText != null)
-        {
-            scoreCounter = scoreText.GetComponent<ScoreCounter>(); // Find the game object with the script
         }
         startPosition = playerShooting.worldPosition;
         endPosition = playerShooting.worldPosition + new Vector3(0, 3, 0); // Height of the arrow
@@ -59,13 +54,12 @@ public class ArrowScript : MonoBehaviour
         }
     }
 
-    public void OnTriggerStay2D(Collider2D collision) // OnTriggerStay saved my life!
+    private void OnTriggerStay2D(Collider2D collision) // OnTriggerStay saved my life!
     {
         if (collision.gameObject.CompareTag("Enemy") && transform.localScale.x <= 0.1 && transform.localScale.y <= 0.1)
-        {  
-            scoreCounter.SendMessage("ReceiveScore", 100, SendMessageOptions.DontRequireReceiver); // There's some unintended bugs here but time is running out for me to finish this
-            collision.gameObject.SendMessage("DeathAnimation", SendMessageOptions.DontRequireReceiver);
-            Destroy(collision.gameObject, 2);
+        {
+            Destroy(collision.gameObject);
+            SendMessage("ReceiveScore", 100, SendMessageOptions.DontRequireReceiver);
         }
     }
 }

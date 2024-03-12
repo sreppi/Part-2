@@ -14,7 +14,6 @@ TagManager:
   - Point F
   - Point G
   - Point H
-  - ScoreCounter
   layers:
   - Default
   - TransparentFX

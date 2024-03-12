@@ -8,24 +8,24 @@ using TMPro; // Anytime you need to use TextmeshPro put this here
 public class ScoreCounter : MonoBehaviour
 {
     TextMeshProUGUI scoreCounter; // There's a difference between TextMeshProUGUI
-    public int currentScore;
+    public Text score;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentScore = 0;
         scoreCounter = GetComponent<TextMeshProUGUI>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        scoreCounter.text = currentScore.ToString();
+        
     }
 
-    public void ReceiveScore(int points)
+    public void ReceiveScore()
     {
-        Debug.Log("Point!");
-        currentScore += points;
+        int number = 100;
+        score.text = number.ToString();
     }
 }
